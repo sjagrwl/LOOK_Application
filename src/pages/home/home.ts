@@ -1,7 +1,7 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { NavController, ToastController, Platform } from 'ionic-angular';
-import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
-import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
+import { TextToSpeech } from '@ionic-native/text-to-speech';
+import { SpeechRecognition } from '@ionic-native/speech-recognition';
 
 @Component({
   selector: 'page-home',
@@ -21,7 +21,7 @@ export class HomePage {
     ) { }
 
   speak(){
-    this.tts.speak('You are listening to the default message')
+    this.tts.speak('You are listening to a default message.')
       .then(() => console.log('Success'))
       .catch((reason: any) => console.log(reason));
   }

@@ -83,4 +83,7 @@
     <plugin name="cordova-plugin-ionic-webview" spec="^1.1.11" />
     <plugin name="cordova-plugin-speechrecognition" spec="1.2.0" />
     <plugin name="cordova-plugin-tts" spec="0.2.3" />
+    <allow-navigation href="http://10.0.49.71:8101" />
+    <engine name="android" spec="7.1.4" />
+    <engine name="browser" spec="5.0.4" />
 </widget>
