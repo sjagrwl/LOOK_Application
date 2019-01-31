@@ -3,7 +3,7 @@
     <name>MyApp</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
-    <content src="index.html" />
+    <content original-src="index.html" src="http://10.0.32.241:8100" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -84,6 +84,9 @@
     <plugin name="cordova-plugin-speechrecognition" spec="1.2.0" />
     <plugin name="cordova-plugin-tts" spec="0.2.3" />
     <allow-navigation href="http://10.0.49.71:8101" />
+    <allow-navigation href="http://10.0.32.241:8100" />
+    <allow-navigation href="http://192.168.43.135:8100" />
+    <allow-navigation href="http://192.168.43.136:8100" />
     <engine name="android" spec="7.1.4" />
     <engine name="browser" spec="5.0.4" />
 </widget>
