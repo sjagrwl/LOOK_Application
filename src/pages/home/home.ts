@@ -31,9 +31,10 @@ export class HomePage {
     });
   }
 
-  login()
+  async login()
   {
     this.speak(2, 'Hello, Welcome to Look. Please state your 10 digit mobile number to login', false);
+    await this.delay(3000);
     this.account.mobile_no = this.startListening(2);
   }
 
@@ -117,11 +118,12 @@ export class HomePage {
     
     
     this.speechRecognition.startListening(options).subscribe(matches => {
-      this.speech_text = matches[0];
+      this.speech_text = matches[0].split(" ").join("");
+      console.log(this.speech_text, this.speech_text.length);
       this.speakstate='mic';
       if(task_index == 2)
       {
-        if(this.speech_text.length != 12)
+        if(this.speech_text.length != 10)
           this.speak(2, 'Phone Number must be 10 digits long.', true);
         else
           this.signUp(this.speech_text);

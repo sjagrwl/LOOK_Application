@@ -10,8 +10,8 @@ import "rxjs/add/operator/map";
 @Injectable()
 export class GetdataProvider {
 
-    base_url = 'http://10.0.32.241:8000';
-    // base_url = 'http://192.168.43.136:8000';
+    // base_url = 'http://10.0.32.241:8000';
+    base_url = 'http://192.168.43.145:9999';
     
     constructor(public http: Http) {
         console.log('Hello GetdataProvider Provider');

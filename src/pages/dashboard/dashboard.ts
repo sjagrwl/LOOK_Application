@@ -42,6 +42,7 @@ export class DashboardPage {
 
   createProfile()
   {
+    console.log(JSON.stringify(this.account), JSON.stringify(this.account_profile));
     if(this.account.first_name)
     {
       if(this.account_profile.age)
@@ -55,9 +56,10 @@ export class DashboardPage {
       this.askName();
   }
 
-  askName()
+  async askName()
   {
     this.speak(1, 'What is your name?', false, 3000);
+    await this.delay(3000);
     this.startListening(1);
   }
 
@@ -67,6 +69,7 @@ export class DashboardPage {
       (response) => {
         var resp = JSON.parse(response.text());
         var account_data = resp['account_data']
+        this.account = account_data;
 
         localStorage.setItem('LOOK_USER', JSON.stringify(account_data));
         this.askAge();
@@ -78,9 +81,10 @@ export class DashboardPage {
       });
   }
 
-  askAge()
+  async askAge()
   {
     this.speak(2, 'What is your age?', false, 3000);
+    await this.delay(3000);
     this.startListening(2);
   }
 
@@ -90,8 +94,10 @@ export class DashboardPage {
       (response) => {
         var resp = JSON.parse(response.text());
         var account_profile = resp['account_profile']
+        this.account_profile = account_profile;
 
         localStorage.setItem('LOOK_USER_PROFILE', JSON.stringify(account_profile));
+        this.createProfile();
       },
       (error) =>{
         var err = JSON.parse(error.text());

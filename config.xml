@@ -3,7 +3,7 @@
     <name>MyApp</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
-    <content original-src="index.html" src="http://10.0.32.241:8100" />
+    <content original-src="index.html" src="http://192.168.43.145:8100" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -87,6 +87,8 @@
     <allow-navigation href="http://10.0.32.241:8100" />
     <allow-navigation href="http://192.168.43.135:8100" />
     <allow-navigation href="http://192.168.43.136:8100" />
-    <engine name="android" spec="7.1.4" />
+    <allow-navigation href="http://192.168.43.145:8100" />
+    <plugin name="cordova-plugin-statusbar" spec="2.4.2" />
     <engine name="browser" spec="5.0.4" />
+    <engine name="android" spec="7.1.4" />
 </widget>
