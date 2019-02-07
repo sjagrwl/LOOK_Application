@@ -19,7 +19,7 @@ export class MyApp {
       statusBar.styleDefault();
       splashScreen.hide();
 
-      if(localStorage.getItem('LOOK_USER'))
+      if(localStorage.getItem('LOOK_USER') && localStorage.getItem('LOOK_USER_JWT') && localStorage.getItem('LOOK_USER_PROFILE'))
       {
         this.rootPage = DashboardPage;
       }

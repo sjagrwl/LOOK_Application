@@ -11,16 +11,26 @@ import "rxjs/add/operator/map";
 export class GetdataProvider {
 
     // base_url = 'http://10.0.32.241:8000';
-    base_url = 'http://192.168.43.145:9999';
+    base_url = 'http://10.0.32.241:8000';
     
     constructor(public http: Http) {
         console.log('Hello GetdataProvider Provider');
         localStorage.setItem('LOOK_base_url', this.base_url);
     }
 
+    getOTPsignup(data: any)
+    {
+        return this.http.post(this.base_url+'/userauth/getOTPsignup/', data);
+    }
+
     signUp(data: any)
     {
         return this.http.post(this.base_url+'/userauth/signup/', data);
+    }
+
+    loginAlreadyRegisterdUser(data: any)
+    {
+        return this.http.post(this.base_url+'/api-token-auth/', data);
     }
 
     storeUserProfileDetails(task_index: any, value: any, account: any)

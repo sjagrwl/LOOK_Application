@@ -42,12 +42,11 @@ export class DashboardPage {
 
   createProfile()
   {
-    console.log(JSON.stringify(this.account), JSON.stringify(this.account_profile));
     if(this.account.first_name)
     {
       if(this.account_profile.age)
       {
-        this.speak(3, 'Your profile is all set up. Say Log me Out when you desire to logout.', false, 5000)
+        this.speak(3, 'You are logged in. Your profile is all set up. Say Log me Out when you desire to logout.', false, 5000)
       }
       else
         this.askAge();

@@ -2,8 +2,15 @@ import { Component } from '@angular/core';
 import { NavController, ToastController, Platform } from 'ionic-angular';
 import { TextToSpeech } from '@ionic-native/text-to-speech';
 import { SpeechRecognition } from '@ionic-native/speech-recognition';
+import { Sim } from '@ionic-native/sim';
+import { AndroidPermissions } from '@ionic-native/android-permissions';
+
+
 import { GetdataProvider } from '../../providers/getdata/getdata';
 import { DashboardPage } from '../dashboard/dashboard';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+
+declare let cordova: any;
 
 @Component({
   selector: 'page-home',
@@ -12,12 +19,17 @@ import { DashboardPage } from '../dashboard/dashboard';
 export class HomePage {
 
   task_index  = { 1: 'INTRODUCTION', 2: 'LOGIN'};
+  sim_information: any;
+  otp: any;
 
   isRecording = false;
   speakstate = 'mic';
   speech_text: string = '';
 
   account = { mobile_no: '', name: '', age: '', gender: '' };
+  login_account = { username: '', password: '' };
+  account_profile: any;
+  account_data: any;
   
   constructor(public navCtrl: NavController,
               private tts: TextToSpeech,
@@ -25,9 +37,11 @@ export class HomePage {
               public toastCtrl: ToastController,
               private plt: Platform,
               private getdataProvider:GetdataProvider,
+              private sim: Sim,
+              private androidPermissions: AndroidPermissions,
   ) { 
     plt.ready().then(() => {
-      this.seekMicroPhonePermission('This app requires Microphone Permission to record audio');
+      this.seekMicroPhonePermission('Hello, Welcome to Look. A voice based app for the blind. This app requires Microphone Permission to record audio');
     });
   }
 
@@ -38,38 +52,147 @@ export class HomePage {
     this.account.mobile_no = this.startListening(2);
   }
 
+  seekSimPermission(message)
+  {
+    this.sim.hasReadPermission()
+    .then((hasPermission: boolean) => {
+      if(!hasPermission){
+        this.speak(0, message, false);
+        this.sim.requestReadPermission().then(
+          (success) => {
+            this.speak(0, 'Thanks for permitting Look', false);
+            this.sim.getSimInfo().then(
+              (info) => {
+                this.sim_information = info;
+                console.log('Sim info: ', JSON.stringify(info));
+              },
+              (err) => {
+            });
+            this.login();
+          },
+          (error) => {
+            this.seekSimPermission('Please allow Look to manage phone calls.')
+          });
+      }
+      else{
+        this.sim.getSimInfo().then(
+          (info) => {
+            this.sim_information = info;
+          },
+          (err) => {
+        });
+        this.login();
+      }
+    });
+  }
+
   seekMicroPhonePermission(message)
   {
     this.speechRecognition.hasPermission()
       .then((hasPermission: boolean) => {
         if (!hasPermission) {
           this.speak(0, message, false)
-          this.speechRecognition.requestPermission();
-          this.seekMicroPhonePermission('Thanks for permitting Look');
+          this.speechRecognition.requestPermission().then(
+            (success) => {
+              this.speak(0, 'Thanks for permitting Look', false);
+              this.seekSimPermission('This app requires permission to manage phone calls.');
+            },
+            (error) => {
+              this.seekMicroPhonePermission('Please grant permission to record audio.')
+            });
         }
         else{
-          this.login();
+          this.seekSimPermission('This app requires permission to manage phone Calls.');
         }
     });
   }
 
-  signUp(mobile_no)
+  getOTPFromUser(message)
+  {
+    // this.speak(0, message, false);
+    return 1234;
+  }
+
+  ifMobileNumberInPhone(mobile_no)
+  {
+    return false;
+  }
+
+  getOTP(mobile_no)
   {
     this.account.mobile_no = mobile_no;
+    if(this.sim_information)
+    {
+      if(this.ifMobileNumberInPhone(mobile_no))
+      {
+        this.signUp(mobile_no);
+      }
+      else
+      {
+        this.getdataProvider.getOTPsignup(this.account).subscribe(
+          (response) => {
+            var resp = JSON.parse(response.text());
+            this.otp = parseInt(resp['OTP']);
+            this.speak(0, resp['message'], false);
+            if(this.otp == this.getOTPFromUser('Please Enter O T P'))
+              this.signUp(this.account);
+            else
+              this.getOTPFromUser('Incorrect O T P')
+          },
+          (error) => {
+            var err = JSON.parse(error.text());
+          }
+        )
+      }
+    }
+    else
+    {
+      this.getdataProvider.getOTPsignup(this.account).subscribe(
+        (response) => {
+          var resp = JSON.parse(response.text());
+          this.otp = resp['OTP'];
+          if(this.otp == this.getOTPFromUser('Please Enter O T P'))
+            this.signUp(this.account);
+        },
+        (error) => {
+          var err = JSON.parse(error.text());
+        }
+      )
+    }
+  }
+
+  signUp(mobile_no)
+  {
     this.getdataProvider.signUp(this.account).subscribe(
       (response) => {
         var resp = JSON.parse(response.text());
-        var message = resp['message'];
-        var account_data = resp['account_data']
-        this.speak(2, message, false);
+        this.account_data = resp['account_data'];
+        this.account_profile = resp['account_profile'];
+        
+        this.loginAlreadyRegisterdUser();
+      },
+      (error) =>{
+      });
+  }
 
-        localStorage.setItem('LOOK_USER', JSON.stringify(account_data));
+  loginAlreadyRegisterdUser()
+  {
+    this.login_account.username = this.account_data.username;
+    this.login_account.password = this.account_data.username;
+    this.getdataProvider.loginAlreadyRegisterdUser(this.login_account).subscribe(
+      (response) => {
+        var resp = JSON.parse(response.text());
+        var jwt = 'JWT '+resp['token'];
+
+        localStorage.setItem('LOOK_USER', JSON.stringify(this.account_data));
+        localStorage.setItem('LOOK_USER_PROFILE', JSON.stringify(this.account_profile));
+        localStorage.setItem('LOOK_USER_JWT', jwt);
+
         this.navCtrl.setRoot(DashboardPage);
       },
       (error) =>{
-        var err = JSON.parse(error.text());
-        var error_message = err['error'];
-        this.speak(2, error_message, false);
+        this.speak(0, 'Some Error Occurred while logging in.', false);
+        this.login();
       });
   }
 
@@ -115,18 +238,15 @@ export class HomePage {
     let options = {
       language: 'en-IN'
     }
-    
-    
     this.speechRecognition.startListening(options).subscribe(matches => {
       this.speech_text = matches[0].split(" ").join("");
-      console.log(this.speech_text, this.speech_text.length);
       this.speakstate='mic';
       if(task_index == 2)
       {
         if(this.speech_text.length != 10)
           this.speak(2, 'Phone Number must be 10 digits long.', true);
         else
-          this.signUp(this.speech_text);
+          this.getOTP(this.speech_text);
       }
     });
     this.isRecording = true;
