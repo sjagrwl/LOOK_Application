@@ -68,11 +68,9 @@ export class HomePage {
   openCameraButton() {
     this.cameraPreview.startCamera(this.cameraPreviewOpts).then(
       (res) => {
-        console.log('here', res);
         this.cameraPreview.show();
       },
       (err) => {
-        console.log('here 2', err);
         this.cameraPreview.show();
       });
     
@@ -93,9 +91,6 @@ export class HomePage {
       type: type,
       url: url
     });
-    
-    // this.chatList.nativeElement.style.height = this.chatList.nativeElement.scrollHeight + 'px';
-    console.log(JSON.stringify(this.chats));
   }
 
   scrollToBottom()

@@ -2,39 +2,37 @@
   <ion-grid style="height: 100%">
     <ion-row style="height: 60%">
       <ion-col col-6>
-          <ion-icon name="camera" large style="color: white; zoom:3.0;"></ion-icon>
+          <ion-icon name="camera" large style="color: white; zoom:2.0;"></ion-icon>
       </ion-col>
       <ion-col col-6 (click)="startListening(2)">
-          <ion-icon name="mic" float-right large style="color: white; zoom:3.0;" ></ion-icon>
+          <ion-icon name="mic" float-right large style="color: white; zoom:2.0;" ></ion-icon>
       </ion-col>
     </ion-row>
-  <ion-row class="chat-list" (click)="startListening(2)">
-      <ion-list>
-          <ion-item *ngFor="let chat of chats" no-lines>
-              <div class="chat-message" *ngIf="chat.author == 'LOOK'">
-                <div class="left-bubble">
-                  <p text-wrap>{{chat.message}}</p>
-                </div>
-              </div>
-              <div class="chat-message" *ngIf="chat.author == 'LOOK_USER'">
-                  <div class="right-bubble">
+    <ion-row class="chat-list" (click)="startListening(2)">
+        <ion-list>
+            <ion-item *ngFor="let chat of chats" no-lines>
+                <div class="chat-message" *ngIf="chat.author == 'LOOK'">
+                  <div class="left-bubble">
                     <p text-wrap>{{chat.message}}</p>
                   </div>
                 </div>
-            </ion-item>
-      </ion-list>
-      
-  </ion-row>
-</ion-grid>
-  
+                <div class="chat-message" *ngIf="chat.author == 'LOOK_USER'">
+                    <div class="right-bubble">
+                      <p text-wrap>{{chat.message}}</p>
+                    </div>
+                  </div>
+              </ion-item>
+        </ion-list>
+    </ion-row>
+  </ion-grid>
 </ion-content>
 
-<ion-footer no-border padding>
+<!-- <ion-footer no-border padding>
     <ion-item class="message-input-box">
       <ion-input type="text" placeholder="type here..." [(ngModel)]="message_in_text_box"></ion-input>
       <button ion-button round item-right clear (click)="sendTypedMessage()"><ion-icon name="send" class="send-icon"></ion-icon></button>
     </ion-item>
-</ion-footer>
+</ion-footer> -->
 
 <!-- <ion-bottom-drawer [(state)]="drawerState" [minimumHeight]="100" [dockedHeight]="100"
   [shouldBounce]="true" [distanceTop]="300">

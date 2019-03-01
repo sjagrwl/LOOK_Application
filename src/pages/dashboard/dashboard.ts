@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, Platform } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, Platform, Content } from 'ionic-angular';
 import { TextToSpeech } from '@ionic-native/text-to-speech';
 import { SpeechRecognition } from '@ionic-native/speech-recognition';
 import { CameraPreview, CameraPreviewPictureOptions, CameraPreviewOptions, CameraPreviewDimensions } from '@ionic-native/camera-preview';
@@ -20,14 +20,19 @@ import { GetdataProvider } from '../../providers/getdata/getdata';
 })
 export class DashboardPage {
 
-  task_index  = { 1: 'ASK_NAME', 2: 'ASK_AGE'};
+  @ViewChild(Content) contentArea: Content;
+
+  task_index  = { 1: 'ASK_NAME', 2: 'ASK_AGE', 3: 'PROFILE_COMPLETE'};
 
   isRecording = false;
   speakstate = 'mic';
   speech_text: string = '';
+  message_in_text_box = '';
 
   account: any;
   account_profile: any;
+
+  chats: Object[];
 
   cameraPreviewOpts: CameraPreviewOptions = {
     x: 0,
@@ -49,21 +54,24 @@ export class DashboardPage {
               private cameraPreview: CameraPreview
   ) { 
     plt.ready().then(() => {
+      this.chats = [];
       this.openCameraButton();
       this.account = JSON.parse(localStorage.getItem('LOOK_USER'));
       this.account_profile = JSON.parse(localStorage.getItem('LOOK_USER_PROFILE'));
+      // this.account.first_name = "";
+      // this.account_profile.age = "";
       this.createProfile();
+      console.log(JSON.stringify(this.account));
+      console.log(JSON.stringify(this.account_profile));
     });
   }
 
   openCameraButton() {
     this.cameraPreview.startCamera(this.cameraPreviewOpts).then(
       (res) => {
-        console.log('here', res);
         this.cameraPreview.show();
       },
       (err) => {
-        console.log('here 2', err);
         this.cameraPreview.show();
       });
     
@@ -74,26 +82,44 @@ export class DashboardPage {
     this.cameraPreview.hide();
   }
 
+  add_to_chats(task_index, author, author_id, message, type, url)
+  {
+    this.chats.push({
+      task_index: task_index,
+      author: author,
+      author_id: author_id,
+      message: message,
+      type: type,
+      url: url
+    });
+  }
+
   createProfile()
   {
     if(this.account.first_name)
     {
       if(this.account_profile.age)
       {
-        this.speak(3, 'You are logged in. Your profile is all set up. Say Log me Out when you desire to logout.', false, 5000)
+        this.speak(3, 'You are logged in. Your profile is all set up. Say Log me Out when you desire to logout.', false, 5000);
+        this.add_to_chats(3, "LOOK", null, 'You are logged in. Your profile is all set up. Say Log me Out when you desire to logout.', "String", null);
+        this.scrollToBottom();
       }
       else
         this.askAge();
+        this.scrollToBottom();
     }
     else
       this.askName();
+      this.scrollToBottom();
   }
 
   async askName()
   {
     this.speak(1, 'What is your name?', false, 4000);
+    this.add_to_chats(1, "LOOK", null, 'What is your name?', "String", null);
     await this.delay(3000);
     this.startListening(1);
+    this.scrollToBottom();
   }
 
   storeName(name)
@@ -106,17 +132,20 @@ export class DashboardPage {
 
         localStorage.setItem('LOOK_USER', JSON.stringify(account_data));
         this.askAge();
+        this.scrollToBottom();
       },
       (error) =>{
         var err = JSON.parse(error.text());
         var error_message = err['error'];
         this.speak(2, error_message, false, 3000);
+        this.scrollToBottom();
       });
   }
 
   async askAge()
   {
     this.speak(2, 'What is your age?', false, 3000);
+    this.add_to_chats(1, "LOOK", null, 'What is your age?', "String", null);
     await this.delay(3000);
     this.startListening(2);
   }
@@ -167,6 +196,8 @@ export class DashboardPage {
   
   startListening(task_index) 
   {
+    console.log(this.task_index);
+    console.log(JSON.stringify(this.chats));
     let options = {
       language: 'en-IN'
     }
@@ -176,7 +207,6 @@ export class DashboardPage {
           this.speechRecognition.requestPermission();
         }
     });
-    if(!this.isRecording){
       this.isRecording = true;
       this.speechRecognition.startListening(options).subscribe(matches => {
         
@@ -187,22 +217,64 @@ export class DashboardPage {
         this.speech_text = matches[0];
         this.speakstate='mic';
         if(task_index == 1)
+        {
           this.storeName(this.speech_text);
+          this.add_to_chats(1, "LOOK_USER", this.account.username, this.speech_text, "String", null);
+          this.scrollToBottom();
+        }
         if(task_index == 2)
         {
+          this.scrollToBottom();
           if(isNaN(+this.speech_text))
+          {
             this.speak(2, 'This is not a number. Please state your age.', true, 5000);
+            this.add_to_chats(1, "LOOK", null, 'This is not a number. Please state your age.', "String", null);
+            this.scrollToBottom();
+          }
           else
+          {
+            this.add_to_chats(1, "LOOK_USER", this.account.username, this.speech_text, "String", null);
             this.storeAge(this.speech_text);
+            this.scrollToBottom();
+          }
         }
       });
-    }
-    else{
-
-    }
     this.isRecording = true;
     this.speakstate='mic-off';
+    this.scrollToBottom();
     return this.speech_text;
+  }
+
+  scrollToBottom()
+  {
+    this.contentArea.scrollToBottom();
+  }
+
+  sendTypedMessage(task_index)
+  {
+    if(task_index == 1)
+    {
+      this.storeName(this.message_in_text_box);
+      this.add_to_chats(1, "LOOK_USER", this.account.username, this.message_in_text_box, "String", null);
+      this.scrollToBottom();
+    }
+    if(task_index == 2)
+    {
+      this.scrollToBottom();
+      if(isNaN(+this.message_in_text_box))
+      {
+        this.speak(2, 'This is not a number. Please state your age.', true, 5000);
+        this.add_to_chats(2, "LOOK", null, 'This is not a number. Please state your age.', "String", null);
+        this.scrollToBottom();
+      }
+      else
+      {
+        this.add_to_chats(2, "LOOK_USER", this.account.username, this.message_in_text_box, "String", null);
+        this.storeAge(this.message_in_text_box);
+        this.scrollToBottom();
+      }
+    }
+    this.scrollToBottom();
   }
 
 }
