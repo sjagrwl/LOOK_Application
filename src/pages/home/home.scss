@@ -1,42 +1,38 @@
 page-home {
-    ion-content{
+    html, body, .ion-app {
+        background-color: transparent !important;
+      }
+
+    .content{
         overflow: hidden;
-        height: 90%;
-        vertical-align: text-bottom;
+        background-color: transparent !important;
     }
+
     .input-message-division{
         position: absolute;
         bottom: 0%;
     }
+    
     .send-button{
         border-radius: 50%;
     }
+    
     .message-input-box{
-        background: #f3f3f7;
+        background: white;
         border-radius: 50px;
         border: 1px solid #ac9d9d;
     }
 
     .send-icon{
         font-size: 30px;
-        color: #000000;
+        color: #3194c2;
     }
 
-    .footer-style {
-        padding-left: 3%;
-        padding-right: 3%;
-        padding-top: 1%;
-        padding-bottom: 0;
-
-        ion-input {
-            border: 0;
-            box-shadow: 5px 5px 5px 5px #27347d;
-            border-bottom-color: #ffffff;
-        }
-        // .item-md.item-input.input-has-focus .item-inner {
-        //     border-bottom-color: transparent !important;
-        //     box-shadow: none !important;
-        //   }
+    .chat-list{
+        max-height: 40%; 
+        background-color: #ffffff; 
+        height: 40%; 
+        border-radius: 20px;
     }
 
     .chat-message {
@@ -50,7 +46,7 @@ page-home {
             border-bottom-left-radius: .4em;
             border-bottom-right-radius: .4em;
             padding: 5px 10px 10px;
-            left: 15%;
+            left: 25%;
             p {
                 vertical-align: -webkit-baseline-middle;
             }

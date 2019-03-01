@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, Platform } from 'ionic-angular';
 import { TextToSpeech } from '@ionic-native/text-to-speech';
 import { SpeechRecognition } from '@ionic-native/speech-recognition';
+import { CameraPreview, CameraPreviewPictureOptions, CameraPreviewOptions, CameraPreviewDimensions } from '@ionic-native/camera-preview';
+
 import { GetdataProvider } from '../../providers/getdata/getdata';
 
 /**
@@ -26,18 +28,50 @@ export class DashboardPage {
 
   account: any;
   account_profile: any;
+
+  cameraPreviewOpts: CameraPreviewOptions = {
+    x: 0,
+    y: 0,
+    width: window.screen.width,
+    height: window.screen.height,
+    camera: 'rear',
+    tapPhoto: true,
+    previewDrag: true,
+    toBack: true,
+    alpha: 1
+  };
   
   constructor(public navCtrl: NavController,
               private tts: TextToSpeech,
               private speechRecognition: SpeechRecognition,
               private plt: Platform,
               private getdataProvider:GetdataProvider,
+              private cameraPreview: CameraPreview
   ) { 
     plt.ready().then(() => {
+      this.openCameraButton();
       this.account = JSON.parse(localStorage.getItem('LOOK_USER'));
       this.account_profile = JSON.parse(localStorage.getItem('LOOK_USER_PROFILE'));
       this.createProfile();
     });
+  }
+
+  openCameraButton() {
+    this.cameraPreview.startCamera(this.cameraPreviewOpts).then(
+      (res) => {
+        console.log('here', res);
+        this.cameraPreview.show();
+      },
+      (err) => {
+        console.log('here 2', err);
+        this.cameraPreview.show();
+      });
+    
+  }
+
+  stopCameraButton() {
+    this.cameraPreview.stopCamera();
+    this.cameraPreview.hide();
   }
 
   createProfile()

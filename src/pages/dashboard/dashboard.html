@@ -1,11 +1,21 @@
-<ion-header>
-  <ion-navbar>
-    <ion-title>Dashboard</ion-title>
-  </ion-navbar>
-  <ion-icon end name="exit"></ion-icon>
-</ion-header>
+  <ion-content padding>
+  
+    <div id="map">
+      <button ion-button (click)="openCameraButton($event)">open camera</button>
+      <br>
+      <button ion-button (click)="stopCameraButton($event)">stop camera</button>
+  
+    </div>
+    <div>123456</div>
+  
+  
+  </ion-content>
 
-
-<ion-content padding>
-
-</ion-content>
+  <ion-footer class="footer-style" no-border>
+      <ion-list>
+        <ion-item class="message-input-box">
+          <ion-input type="text" placeholder="type here..." [(ngModel)]="message_in_text_box"></ion-input>
+          <button ion-button round item-right clear (click)="sendTypedMessage()"><ion-icon name="send" class="send-icon"></ion-icon></button>
+        </ion-item>
+      </ion-list>
+  </ion-footer>

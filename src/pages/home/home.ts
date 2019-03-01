@@ -3,13 +3,13 @@ import { NavController, ToastController, Platform, Content } from 'ionic-angular
 import { TextToSpeech } from '@ionic-native/text-to-speech';
 import { SpeechRecognition } from '@ionic-native/speech-recognition';
 import { Sim } from '@ionic-native/sim';
-import { AndroidPermissions } from '@ionic-native/android-permissions';
-
+import { CameraPreview, CameraPreviewPictureOptions, CameraPreviewOptions, CameraPreviewDimensions } from '@ionic-native/camera-preview';
 
 import { GetdataProvider } from '../../providers/getdata/getdata';
 import { DashboardPage } from '../dashboard/dashboard';
 
 declare let cordova: any;
+
 
 @Component({
   selector: 'page-home',
@@ -18,7 +18,6 @@ declare let cordova: any;
 export class HomePage {
 
   @ViewChild(Content) contentArea: Content;
-  @ViewChild('myInput') myInput: ElementRef;
 
   task_index  = { 1: 'INTRODUCTION', 2: 'LOGIN'};
   sim_information: any;
@@ -36,7 +35,19 @@ export class HomePage {
   new_message: any;
   chats: Object[];
   message_in_text_box: any;
-  
+
+  cameraPreviewOpts: CameraPreviewOptions = {
+    x: 0,
+    y: 0,
+    width: window.screen.width,
+    height: window.screen.height,
+    camera: 'rear',
+    tapPhoto: true,
+    previewDrag: true,
+    toBack: true,
+    alpha: 1
+  };
+
   constructor(public navCtrl: NavController,
               private tts: TextToSpeech,
               private speechRecognition: SpeechRecognition,
@@ -44,13 +55,32 @@ export class HomePage {
               private plt: Platform,
               private getdataProvider:GetdataProvider,
               private sim: Sim,
-              private androidPermissions: AndroidPermissions,
+              private cameraPreview: CameraPreview
   ) { 
     this.chats = [];
     plt.ready().then(() => {
       this.seekMicroPhonePermission('Hello, Welcome to Look. A voice based app for the blind. This app requires Microphone Permission to record audio');
       // this.add_to_chats(1, "LOOK", null, 'Hello, Welcome to Look. A voice based app for the blind. This app requires Microphone Permission to record audio', "String", null);
+      this.openCameraButton();
     });
+  }
+
+  openCameraButton() {
+    this.cameraPreview.startCamera(this.cameraPreviewOpts).then(
+      (res) => {
+        console.log('here', res);
+        this.cameraPreview.show();
+      },
+      (err) => {
+        console.log('here 2', err);
+        this.cameraPreview.show();
+      });
+    
+  }
+
+  stopCameraButton() {
+    this.cameraPreview.stopCamera();
+    this.cameraPreview.hide();
   }
 
   add_to_chats(task_index, author, author_id, message, type, url)
@@ -63,12 +93,14 @@ export class HomePage {
       type: type,
       url: url
     });
-    this.contentArea.scrollToBottom();
-    // console.log(JSON.stringify(this.chats));
+    
+    // this.chatList.nativeElement.style.height = this.chatList.nativeElement.scrollHeight + 'px';
+    console.log(JSON.stringify(this.chats));
   }
 
-  resize() {
-    this.myInput.nativeElement.style.height = this.myInput.nativeElement.scrollHeight + 'px';
+  scrollToBottom()
+  {
+    this.contentArea.scrollToBottom();
   }
 
   async login()
@@ -275,34 +307,37 @@ export class HomePage {
           this.add_to_chats(2, "LOOK_USER", null, this.speech_text, "String", null);
           this.add_to_chats(2, "LOOK", null, "Phone Number must be 10 digits long.", "String", null);
           this.speak(2, 'Phone Number must be 10 digits long.', true);
+          this.scrollToBottom();
         }
         else
         {
           this.add_to_chats(2, 'LOOK_USER', null, this.speech_text, "String", null);
           this.getOTP(this.speech_text);
+          this.scrollToBottom();
         }
       }
     });
     this.isRecording = true;
     this.speakstate='mic-off';
-    // console.log(JSON.stringify(this.chats));
+    this.scrollToBottom();
     return this.speech_text;
   }
 
   sendTypedMessage()
   {
-    console.log(this.message_in_text_box);
-    // this.add_to_chats(this.chats[this.chats.length-1]['task_index'], "LOOK_USER", null, this.message_in_text_box, "String", null);
     if(this.message_in_text_box.length != 10)
     {
       this.add_to_chats(2, "LOOK_USER", null, this.message_in_text_box, "String", null);
       this.add_to_chats(2, "LOOK", null, "Phone Number must be 10 digits long.", "String", null);
       this.speak(2, 'Phone Number must be 10 digits long.', true);
+      this.scrollToBottom();
     }
     else
     {
       this.add_to_chats(2, 'LOOK_USER', null, this.message_in_text_box, "String", null);
-      this.getOTP(this.speech_text);
+      this.getOTP(this.message_in_text_box);
+      this.scrollToBottom();
     }
+    this.scrollToBottom();
   }
 }
