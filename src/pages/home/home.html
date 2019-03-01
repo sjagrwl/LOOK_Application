@@ -1,17 +1,49 @@
 <ion-header>
-  <ion-toolbar>
+  <!-- <ion-navbar>
     <ion-title>
-      Login
+      Look
     </ion-title>
-  </ion-toolbar>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="startListening(2)">
+        <ion-icon name="mic"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar> -->
 </ion-header>
 
-<!-- <ion-content padding>
-  <button ion-button (click)="speak()">TEXT TO SPEECH</button>
-  <div style="background: skyblue; width: 24rem; height: 35rem;" (click)="startListening()">
-  </div>
-  <button ion-fab color="dark" *ngIf="isIos()" (click)="stopListening()">
-    <ion-icon name="close"></ion-icon>
-  </button>
-  <h1>{{speech_text}}</h1>
-</ion-content> -->
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let chat of chats" no-lines>
+      <!-- {{ chat.message }} -->
+      <div class="chat-message" *ngIf="chat.author == 'LOOK'">
+        <div class="left-bubble">
+          <p text-wrap>{{chat.message}}</p>
+        </div>
+      </div>
+      <div class="chat-message" *ngIf="chat.author == 'LOOK_USER'">
+          <div class="right-bubble">
+            <p text-wrap>{{chat.message}}</p>
+          </div>
+        </div>
+    </ion-item>
+  </ion-list>
+
+  
+</ion-content>
+
+<ion-footer class="footer-style" no-border>
+  <!-- <ion-row class="input-message-division">
+    <ion-col col-11>
+      <ion-input type="text" placeholder="type here..." class="message-input-box" [(ngModel)]="message_in_text_box" text-wrap></ion-input>
+    </ion-col>
+    <ion-col col-1 style="padding-right: 1%">
+        <button ion-button round (click)="sendTypedMessage()"><ion-icon name="send"></ion-icon></button>
+    </ion-col>
+  </ion-row> -->
+    <ion-list>
+      <ion-item class="message-input-box">
+        <ion-input type="text" placeholder="type here..." [(ngModel)]="message_in_text_box"></ion-input>
+        <button ion-button round item-right clear (click)="sendTypedMessage()"><ion-icon name="send" class="send-icon"></ion-icon></button>
+      </ion-item>
+    </ion-list>
+</ion-footer>

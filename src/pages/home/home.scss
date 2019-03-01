@@ -1,3 +1,96 @@
 page-home {
+    ion-content{
+        overflow: hidden;
+        height: 90%;
+        vertical-align: text-bottom;
+    }
+    .input-message-division{
+        position: absolute;
+        bottom: 0%;
+    }
+    .send-button{
+        border-radius: 50%;
+    }
+    .message-input-box{
+        background: #f3f3f7;
+        border-radius: 50px;
+        border: 1px solid #ac9d9d;
+    }
 
+    .send-icon{
+        font-size: 30px;
+        color: #000000;
+    }
+
+    .footer-style {
+        padding-left: 3%;
+        padding-right: 3%;
+        padding-top: 1%;
+        padding-bottom: 0;
+
+        ion-input {
+            border: 0;
+            box-shadow: 5px 5px 5px 5px #27347d;
+            border-bottom-color: #ffffff;
+        }
+        // .item-md.item-input.input-has-focus .item-inner {
+        //     border-bottom-color: transparent !important;
+        //     box-shadow: none !important;
+        //   }
+    }
+
+    .chat-message {
+        width: 80%;
+        min-height: 40px;
+        .right-bubble {
+            text-align: right;
+            position: relative;
+            background: #e7eaeb;
+            border-top-left-radius: .4em;
+            border-bottom-left-radius: .4em;
+            border-bottom-right-radius: .4em;
+            padding: 5px 10px 10px;
+            left: 15%;
+            p {
+                vertical-align: -webkit-baseline-middle;
+            }
+        }
+
+        .right-bubble:after {
+            text-align: right;
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 0;
+            height: 0;
+            p {
+                vertical-align: -webkit-baseline-middle;
+            }
+        }
+        .left-bubble {
+            position: relative;
+            background: #ffffff;
+            border-top-right-radius: .4em;
+            border-bottom-left-radius: .4em;
+            border-bottom-right-radius: .4em;
+            padding: 5px 10px 10px;
+            left: 3%;
+            border: 2px solid #939494;
+            p {
+                vertical-align: -webkit-baseline-middle;
+            }
+        }
+    
+        .left-bubble:after {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 0;
+            height: 0;
+            border: 27px solid #939494;
+            p {
+                vertical-align: -webkit-baseline-middle;
+            }
+        }
+    }
 }

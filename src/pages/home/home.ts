@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NavController, ToastController, Platform } from 'ionic-angular';
+import { Component, ViewChild, ElementRef } from '@angular/core';
+import { NavController, ToastController, Platform, Content } from 'ionic-angular';
 import { TextToSpeech } from '@ionic-native/text-to-speech';
 import { SpeechRecognition } from '@ionic-native/speech-recognition';
 import { Sim } from '@ionic-native/sim';
@@ -8,7 +8,6 @@ import { AndroidPermissions } from '@ionic-native/android-permissions';
 
 import { GetdataProvider } from '../../providers/getdata/getdata';
 import { DashboardPage } from '../dashboard/dashboard';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 declare let cordova: any;
 
@@ -17,6 +16,9 @@ declare let cordova: any;
   templateUrl: 'home.html'
 })
 export class HomePage {
+
+  @ViewChild(Content) contentArea: Content;
+  @ViewChild('myInput') myInput: ElementRef;
 
   task_index  = { 1: 'INTRODUCTION', 2: 'LOGIN'};
   sim_information: any;
@@ -30,6 +32,10 @@ export class HomePage {
   login_account = { username: '', password: '' };
   account_profile: any;
   account_data: any;
+
+  new_message: any;
+  chats: Object[];
+  message_in_text_box: any;
   
   constructor(public navCtrl: NavController,
               private tts: TextToSpeech,
@@ -40,14 +46,35 @@ export class HomePage {
               private sim: Sim,
               private androidPermissions: AndroidPermissions,
   ) { 
+    this.chats = [];
     plt.ready().then(() => {
       this.seekMicroPhonePermission('Hello, Welcome to Look. A voice based app for the blind. This app requires Microphone Permission to record audio');
+      // this.add_to_chats(1, "LOOK", null, 'Hello, Welcome to Look. A voice based app for the blind. This app requires Microphone Permission to record audio', "String", null);
     });
+  }
+
+  add_to_chats(task_index, author, author_id, message, type, url)
+  {
+    this.chats.push({
+      task_index: task_index,
+      author: author,
+      author_id: author_id,
+      message: message,
+      type: type,
+      url: url
+    });
+    this.contentArea.scrollToBottom();
+    // console.log(JSON.stringify(this.chats));
+  }
+
+  resize() {
+    this.myInput.nativeElement.style.height = this.myInput.nativeElement.scrollHeight + 'px';
   }
 
   async login()
   {
     this.speak(2, 'Hello, Welcome to Look. Please state your 10 digit mobile number to login', false);
+    this.add_to_chats(2, "LOOK", null, 'Hello, Welcome to Look. Please state your 10 digit mobile number to login', String, null);
     await this.delay(3000);
     this.account.mobile_no = this.startListening(2);
   }
@@ -109,7 +136,7 @@ export class HomePage {
 
   getOTPFromUser(message)
   {
-    // this.speak(0, message, false);
+    this.speak(0, message, false);
     return 1234;
   }
 
@@ -244,13 +271,38 @@ export class HomePage {
       if(task_index == 2)
       {
         if(this.speech_text.length != 10)
+        {
+          this.add_to_chats(2, "LOOK_USER", null, this.speech_text, "String", null);
+          this.add_to_chats(2, "LOOK", null, "Phone Number must be 10 digits long.", "String", null);
           this.speak(2, 'Phone Number must be 10 digits long.', true);
+        }
         else
+        {
+          this.add_to_chats(2, 'LOOK_USER', null, this.speech_text, "String", null);
           this.getOTP(this.speech_text);
+        }
       }
     });
     this.isRecording = true;
     this.speakstate='mic-off';
+    // console.log(JSON.stringify(this.chats));
     return this.speech_text;
+  }
+
+  sendTypedMessage()
+  {
+    console.log(this.message_in_text_box);
+    // this.add_to_chats(this.chats[this.chats.length-1]['task_index'], "LOOK_USER", null, this.message_in_text_box, "String", null);
+    if(this.message_in_text_box.length != 10)
+    {
+      this.add_to_chats(2, "LOOK_USER", null, this.message_in_text_box, "String", null);
+      this.add_to_chats(2, "LOOK", null, "Phone Number must be 10 digits long.", "String", null);
+      this.speak(2, 'Phone Number must be 10 digits long.', true);
+    }
+    else
+    {
+      this.add_to_chats(2, 'LOOK_USER', null, this.message_in_text_box, "String", null);
+      this.getOTP(this.speech_text);
+    }
   }
 }

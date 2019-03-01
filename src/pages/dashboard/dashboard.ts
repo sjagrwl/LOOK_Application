@@ -57,7 +57,7 @@ export class DashboardPage {
 
   async askName()
   {
-    this.speak(1, 'What is your name?', false, 3000);
+    this.speak(1, 'What is your name?', false, 4000);
     await this.delay(3000);
     this.startListening(1);
   }
@@ -101,7 +101,7 @@ export class DashboardPage {
       (error) =>{
         var err = JSON.parse(error.text());
         var error_message = err['error'];
-        this.speak(2, error_message, false, 3000);
+        this.speak(2, error_message, false, 2000);
       });
   }
 
@@ -142,20 +142,30 @@ export class DashboardPage {
           this.speechRecognition.requestPermission();
         }
     });
-    this.speechRecognition.startListening(options).subscribe(matches => {
-      console.log(matches);
-      this.speech_text = matches[0];
-      this.speakstate='mic';
-      if(task_index == 1)
-        this.storeName(this.speech_text);
-      if(task_index == 2)
-      {
-        if(isNaN(+this.speech_text))
-          this.speak(2, 'This is not a number. Please state your age.', true, 5000);
-        else
-          this.storeAge(this.speech_text);
-      }
-    });
+    if(!this.isRecording){
+      this.isRecording = true;
+      this.speechRecognition.startListening(options).subscribe(matches => {
+        
+        this.speechRecognition.stopListening();
+        this.isRecording = false;
+
+        // console.log(matches);
+        this.speech_text = matches[0];
+        this.speakstate='mic';
+        if(task_index == 1)
+          this.storeName(this.speech_text);
+        if(task_index == 2)
+        {
+          if(isNaN(+this.speech_text))
+            this.speak(2, 'This is not a number. Please state your age.', true, 5000);
+          else
+            this.storeAge(this.speech_text);
+        }
+      });
+    }
+    else{
+
+    }
     this.isRecording = true;
     this.speakstate='mic-off';
     return this.speech_text;

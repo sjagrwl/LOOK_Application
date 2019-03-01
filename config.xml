@@ -3,7 +3,7 @@
     <name>MyApp</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
-    <content original-src="index.html" src="http://10.0.32.241:8100" />
+    <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -94,4 +94,5 @@
     <plugin name="cordova-plugin-android-permissions" spec="1.0.0" />
     <engine name="browser" spec="5.0.4" />
     <engine name="android" spec="7.1.4" />
+    <plugin name="cordova-plugin-camera-preview" spec="0.10.0" />
 </widget>
