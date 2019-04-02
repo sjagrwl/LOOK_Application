@@ -5,6 +5,7 @@ import { SpeechRecognition } from '@ionic-native/speech-recognition';
 import { CameraPreview, CameraPreviewPictureOptions, CameraPreviewOptions, CameraPreviewDimensions } from '@ionic-native/camera-preview';
 
 import { GetdataProvider } from '../../providers/getdata/getdata';
+import { TakePicturePage } from '../take-picture/take-picture';
 
 /**
  * Generated class for the DashboardPage page.
@@ -80,6 +81,12 @@ export class DashboardPage {
   stopCameraButton() {
     this.cameraPreview.stopCamera();
     this.cameraPreview.hide();
+  }
+
+  TakePicture()
+  {
+    console.log('TAKING PICTURE');
+    this.navCtrl.push(TakePicturePage);
   }
 
   add_to_chats(task_index, author, author_id, message, type, url)

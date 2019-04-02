@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 
+
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { LongPressModule } from 'ionic-long-press';
 import { IonBottomDrawerModule } from 'ion-bottom-drawer';
@@ -13,10 +14,16 @@ import { SpeechRecognition } from '@ionic-native/speech-recognition';
 import { Sim } from '@ionic-native/sim';
 import { AndroidPermissions } from '@ionic-native/android-permissions';
 import { CameraPreview, CameraPreviewPictureOptions, CameraPreviewOptions, CameraPreviewDimensions } from '@ionic-native/camera-preview';
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
+import { File } from '@ionic-native/file';
+import { Geolocation } from '@ionic-native/geolocation';
+import { NativeGeocoder, NativeGeocoderReverseResult, NativeGeocoderForwardResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder';
+
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { DashboardPage } from '../pages/dashboard/dashboard';
+import { TakePicturePage } from '../pages/take-picture/take-picture';
 
 import { GetdataProvider } from '../providers/getdata/getdata';
 
@@ -24,7 +31,8 @@ import { GetdataProvider } from '../providers/getdata/getdata';
   declarations: [
     MyApp,
     HomePage,
-    DashboardPage
+    DashboardPage,
+    TakePicturePage
   ],
   imports: [
     BrowserModule,
@@ -37,7 +45,8 @@ import { GetdataProvider } from '../providers/getdata/getdata';
   entryComponents: [
     MyApp,
     HomePage,
-    DashboardPage
+    DashboardPage,
+    TakePicturePage
   ],
   providers: [
     StatusBar,
@@ -48,6 +57,11 @@ import { GetdataProvider } from '../providers/getdata/getdata';
     Sim,
     AndroidPermissions,
     CameraPreview,
+    FileTransfer,
+    FileTransferObject,
+    File,
+    Geolocation,
+    NativeGeocoder,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

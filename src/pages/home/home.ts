@@ -4,6 +4,8 @@ import { TextToSpeech } from '@ionic-native/text-to-speech';
 import { SpeechRecognition } from '@ionic-native/speech-recognition';
 import { Sim } from '@ionic-native/sim';
 import { CameraPreview, CameraPreviewPictureOptions, CameraPreviewOptions, CameraPreviewDimensions } from '@ionic-native/camera-preview';
+import { Geolocation } from '@ionic-native/geolocation';
+import { NativeGeocoder, NativeGeocoderReverseResult, NativeGeocoderForwardResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder';
 
 import { GetdataProvider } from '../../providers/getdata/getdata';
 import { DashboardPage } from '../dashboard/dashboard';
@@ -55,7 +57,9 @@ export class HomePage {
               private plt: Platform,
               private getdataProvider:GetdataProvider,
               private sim: Sim,
-              private cameraPreview: CameraPreview
+              private cameraPreview: CameraPreview,
+              private geolocation: Geolocation,
+              private nativeGeocoder: NativeGeocoder
   ) { 
     this.chats = [];
     plt.ready().then(() => {
@@ -118,7 +122,7 @@ export class HomePage {
             this.sim.getSimInfo().then(
               (info) => {
                 this.sim_information = info;
-                console.log('Sim info: ', JSON.stringify(info));
+                // console.log('Sim info: ', JSON.stringify(info));
               },
               (err) => {
             });
