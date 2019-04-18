@@ -23,7 +23,7 @@ import { GetdataProvider } from '../../providers/getdata/getdata';
 export class TakePicturePage {
 
   timerVar;
-  timerVal=3;
+  timerVal=5;
 
   options = {
     x: 0,
@@ -102,11 +102,11 @@ export class TakePicturePage {
   startTimer()
   {
     this.timerVar = Observable.interval(1000).subscribe( x=>{
-      this.timerVal = 3;
+      this.timerVal = 5;
       this.timerVal = this.timerVal - x;
       console.log(this.timerVal);
 
-      if(this.timerVal < 0)
+      if(this.timerVal < 1)
       {
         this.timerVar.unsubscribe();
         this.getImagesSession(this.allImages);
