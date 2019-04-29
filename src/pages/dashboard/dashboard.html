@@ -1,5 +1,5 @@
 <ion-content>
-  <ion-grid style="height: 100%">
+  <ion-grid style="height: 100%;">
     <ion-row style="height: 60%;">
       <ion-col col-6 (click)="TakePicture()">
           <ion-icon name="camera" class="camera-icon"></ion-icon>
@@ -8,9 +8,10 @@
           <ion-icon name="mic" float-right class="mic-icon"></ion-icon>
       </ion-col>
     </ion-row>
-    <ion-row class="chat-list" style="vertical-align: top;" (click)="startListening(chats[chats.length-1]['task_index'])">
+
+    <ion-row class="chat-list" (click)="startListening(chats[chats.length-1]['task_index'])">
       <ion-list>
-        <ion-item *ngFor="let chat of chats" no-lines>
+        <ion-item *ngFor="let chat of chats" no-lines style="background: none;">
           <div class="chat-message" *ngIf="chat.author == 'LOOK'">
             <div class="left-bubble">
               <p text-wrap>{{chat.message}}</p>
@@ -24,6 +25,11 @@
         </ion-item>
       </ion-list>
     </ion-row>
+
+    <!-- <ion-row class="chat-list" scrollY="true">
+      
+      
+    </ion-row> -->
   </ion-grid>
 </ion-content>
 

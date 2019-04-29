@@ -14,7 +14,7 @@ export class GetdataProvider {
     // base_url = 'http://10.0.55.44:8000';
     // base_url = 'http://10.0.55.168:8000';
     // base_url = 'http://10.0.49.211:8000';
-    base_url = 'http://10.0.32.241:8000';
+    base_url = 'http://10.0.32.162:8000';
     
     constructor(public http: Http) {
         console.log('Hello GetdataProvider Provider');
@@ -46,5 +46,11 @@ export class GetdataProvider {
     {
         var data = { 'account_profile': account_profile }
         return this.http.post(this.base_url+'/imagedesc/get-imagessession/', data);
+    }
+
+    getLatestImageCaptions(account: any, account_profile: any, headers: any)
+    {
+        var data = { 'account': account, 'account_profile': account_profile };
+        return this.http.post(this.base_url+'/imagedesc/get-image-caption/', data);
     }
 }

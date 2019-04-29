@@ -3,6 +3,11 @@ page-dashboard {
     background-color: transparent !important;
   }
 
+  .ion-list 
+  {
+      overflow-y: scroll !important;
+  };
+
   .content{
       overflow: hidden;
       background-color: transparent !important;
@@ -12,6 +17,8 @@ page-dashboard {
       position: absolute;
       bottom: 0%;
   }
+
+  
 
   .send-button{
       border-radius: 50%;
@@ -29,11 +36,13 @@ page-dashboard {
   }
 
   .chat-list{
-    max-height: 40%; 
-    background-color: #ffffff; 
+    background: none;
+    // background-color: #ffffff; 
     height: 40%; 
     border-radius: 20px;
     vertical-align: bottom;
+    color: white;
+    width: 100% !important;
   }
 
   .camera-icon {
@@ -83,13 +92,14 @@ page-dashboard {
         padding: 5px 10px 10px;
         left: 3%;
         border: 2px solid #939494;
+        width: 100% !important;
         p {
             vertical-align: -webkit-baseline-middle;
         }
     }
 
     .left-bubble:after {
-        position: absolute;
+        position: relative;
         left: 0;
         top: 0;
         width: 0;

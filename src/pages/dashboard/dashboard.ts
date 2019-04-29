@@ -23,17 +23,20 @@ export class DashboardPage {
 
   @ViewChild(Content) contentArea: Content;
 
-  task_index  = { 1: 'ASK_NAME', 2: 'ASK_AGE', 3: 'PROFILE_COMPLETE'};
+  task_index  = { 1: 'ASK_NAME', 2: 'ASK_AGE', 3: 'PROFILE_COMPLETE', 4:'IMAGE_CAPTION'};
 
   isRecording = false;
   speakstate = 'mic';
   speech_text: string = '';
   message_in_text_box = '';
+  headers: any;
 
   account: any;
   account_profile: any;
 
   chats: Object[];
+
+  new_picture_taken: any;
 
   cameraPreviewOpts: CameraPreviewOptions = {
     x: 0,
@@ -59,12 +62,56 @@ export class DashboardPage {
       this.openCameraButton();
       this.account = JSON.parse(localStorage.getItem('LOOK_USER'));
       this.account_profile = JSON.parse(localStorage.getItem('LOOK_USER_PROFILE'));
+      this.headers = new Headers({ 'Authorization': localStorage.getItem('LOOK_USER_JWT') });
       // this.account.first_name = "";
       // this.account_profile.age = "";
       this.createProfile();
-      console.log(JSON.stringify(this.account));
-      console.log(JSON.stringify(this.account_profile));
+      // console.log(JSON.stringify(this.account));
+      // console.log(JSON.stringify(this.account_profile));
+
+      this.new_picture_taken = false;
     });
+  }
+
+  ionViewDidEnter()
+  {
+    if(this.new_picture_taken)
+    {
+      console.log('getting image captions');
+      this.getdataProvider.getLatestImageCaptions(this.account, this.account_profile, this.headers).subscribe(
+        (response) => {
+          this.scrollToBottom();
+          this.chats = [];
+          // console.log(response.text());
+          var data = JSON.parse(response.text())['captions'];
+          console.log(JSON.stringify(data))
+          var i = 0;
+          this.scrollToBottom();
+          for(i=0; i<data.length; i++)
+          {
+            this.add_to_chats(4, "LOOK", null, data[i], "String", null);
+          }
+          this.speak_chats(4);
+          this.scrollToBottom();
+        },
+        (error) =>{
+        });
+    }
+    
+  }
+
+  speak_chats(task_index)
+  {
+    var i=0; 
+    var whole_chat = '';
+    for(i=0; i<this.chats.length; i++)
+      // this.speak(1, 'What is your name?', false, 4000);
+      whole_chat += this.chats[i]['message'] + ". ";
+    console.log(whole_chat);
+    this.scrollToBottom();
+    this.speak(task_index, whole_chat, false, 2000);
+    this.scrollToBottom();
+
   }
 
   openCameraButton() {
@@ -85,7 +132,8 @@ export class DashboardPage {
 
   TakePicture()
   {
-    console.log('TAKING PICTURE');
+    // console.log('TAKING PICTURE');
+    this.new_picture_taken = true;
     this.navCtrl.push(TakePicturePage);
   }
 
