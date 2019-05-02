@@ -53,4 +53,10 @@ export class GetdataProvider {
         var data = { 'account': account, 'account_profile': account_profile };
         return this.http.post(this.base_url+'/imagedesc/get-image-caption/', data);
     }
+
+    askQuestion(account: any, account_profile: any, question: any, headers: any)
+    {
+        var data = { 'account': account, 'account_profile': account_profile, 'question': question };
+        return this.http.post(this.base_url+'/imagedesc/ask-question/', data);
+    }
 }

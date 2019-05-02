@@ -23,7 +23,7 @@ export class DashboardPage {
 
   @ViewChild(Content) contentArea: Content;
 
-  task_index  = { 1: 'ASK_NAME', 2: 'ASK_AGE', 3: 'PROFILE_COMPLETE', 4:'IMAGE_CAPTION'};
+  task_index  = { 1: 'ASK_NAME', 2: 'ASK_AGE', 3: 'PROFILE_COMPLETE', 4:'IMAGE_CAPTION', 5:'QUESTION_ANSWER'};
 
   isRecording = false;
   speakstate = 'mic';
@@ -77,7 +77,6 @@ export class DashboardPage {
   {
     if(this.new_picture_taken)
     {
-      console.log('getting image captions');
       this.getdataProvider.getLatestImageCaptions(this.account, this.account_profile, this.headers).subscribe(
         (response) => {
           this.scrollToBottom();
@@ -107,11 +106,24 @@ export class DashboardPage {
     for(i=0; i<this.chats.length; i++)
       // this.speak(1, 'What is your name?', false, 4000);
       whole_chat += this.chats[i]['message'] + ". ";
-    console.log(whole_chat);
+    // console.log(whole_chat);
     this.scrollToBottom();
     this.speak(task_index, whole_chat, false, 2000);
     this.scrollToBottom();
+  }
 
+  askQuestion(question)
+  {
+    this.getdataProvider.askQuestion(this.account, this.account_profile, question, this.headers).subscribe(
+      (response) => {
+        this.scrollToBottom();
+        var data = JSON.parse(response.text())['answer'];
+        console.log(data);
+        this.speak(5, data, false, 4000);
+        this.add_to_chats(5, "LOOK", null, data, "String", null);
+      },
+      (error) =>{
+      });
   }
 
   openCameraButton() {
@@ -139,6 +151,7 @@ export class DashboardPage {
 
   add_to_chats(task_index, author, author_id, message, type, url)
   {
+    console.log('add to chats', message);
     this.chats.push({
       task_index: task_index,
       author: author,
@@ -292,6 +305,13 @@ export class DashboardPage {
             this.storeAge(this.speech_text);
             this.scrollToBottom();
           }
+        }
+        if(task_index == 5)
+        {
+          this.scrollToBottom();
+          this.add_to_chats(1, "LOOK_USER", this.account.username, this.speech_text, "String", null);
+          this.scrollToBottom();
+          this.askQuestion(this.speech_text);
         }
       });
     this.isRecording = true;

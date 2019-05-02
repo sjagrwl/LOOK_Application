@@ -9,7 +9,8 @@
       </ion-col>
     </ion-row>
 
-    <ion-row class="chat-list" (click)="startListening(chats[chats.length-1]['task_index'])">
+    <ion-row class="chat-list" (click)="startListening(5)">
+      <ion-col col-12>
       <ion-list>
         <ion-item *ngFor="let chat of chats" no-lines style="background: none;">
           <div class="chat-message" *ngIf="chat.author == 'LOOK'">
@@ -24,6 +25,7 @@
             </div>
         </ion-item>
       </ion-list>
+      </ion-col>
     </ion-row>
 
     <!-- <ion-row class="chat-list" scrollY="true">
