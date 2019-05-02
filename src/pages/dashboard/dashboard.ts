@@ -284,13 +284,17 @@ export class DashboardPage {
         // console.log(matches);
         this.speech_text = matches[0];
         this.speakstate='mic';
-        if(task_index == 1)
+        if(this.speech_text.toLowerCase() == 'look')
+        {
+          this.TakePicture();
+        }
+        else if(task_index == 1)
         {
           this.storeName(this.speech_text);
           this.add_to_chats(1, "LOOK_USER", this.account.username, this.speech_text, "String", null);
           this.scrollToBottom();
         }
-        if(task_index == 2)
+        else if(task_index == 2)
         {
           this.scrollToBottom();
           if(isNaN(+this.speech_text))
@@ -306,7 +310,7 @@ export class DashboardPage {
             this.scrollToBottom();
           }
         }
-        if(task_index == 5)
+        else if(task_index == 5)
         {
           this.scrollToBottom();
           this.add_to_chats(1, "LOOK_USER", this.account.username, this.speech_text, "String", null);

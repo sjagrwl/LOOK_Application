@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/interval';
 import { Geolocation } from '@ionic-native/geolocation';
 import { NativeGeocoder, NativeGeocoderReverseResult, NativeGeocoderForwardResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder';
+import { TextToSpeech } from '@ionic-native/text-to-speech';
 
 import { GetdataProvider } from '../../providers/getdata/getdata';
 /**
@@ -58,7 +59,8 @@ export class TakePicturePage {
               public toastCtrl: ToastController,
               private geolocation: Geolocation,
               private nativeGeocoder: NativeGeocoder,
-              private getdataProvider:GetdataProvider,) {
+              private getdataProvider:GetdataProvider,
+              private tts: TextToSpeech) {
       plt.ready().then(() => {
         this.openCameraPreview();
         this.account = JSON.parse(localStorage.getItem('LOOK_USER'));
@@ -86,7 +88,7 @@ export class TakePicturePage {
 
   takePicture()
   {
-    this.cameraPreview.takePicture({width:640, height:640, quality: 85})
+    this.cameraPreview.takePicture({width:640, height:640, quality: 100})
       .then((imageData) => {
         if(this.allImages.length == 0)
           this.startTimer();
@@ -110,7 +112,7 @@ export class TakePicturePage {
       {
         this.timerVar.unsubscribe();
         this.getImagesSession(this.allImages);
-        this.navCtrl.pop();
+        // this.navCtrl.pop();
       }
 
       // let native_geolocation_options: NativeGeocoderOptions = {
@@ -141,7 +143,7 @@ export class TakePicturePage {
           var image_session_id = data['image_session']['id'];
           
           let i = 0;
-          for(i=0; i<all_images.length; i++)
+          for(i=0; i<1; i++)
           {
             this.uploadImage(image_session_id, all_images[i])
           }
@@ -174,11 +176,20 @@ export class TakePicturePage {
       .then((data) => {
       // loader.dismiss();
       this.presentToast("Image uploaded successfully");
+      this.speak(1, "Image Uploaded Successfully. Please wait while it is being analyzed.", false, 4000);
+      this.navCtrl.pop();
     }, (err) => {
       // console.log(err);
       // loader.dismiss();
       // this.presentToast(err);
     });
+  }
+
+  async speak(task_index, message, listen_again, delay_in_ms)
+  {
+    this.tts.speak(message)
+      .catch((reason: any) => console.log(reason));
+    // await this.delay(delay_in_ms);
   }
 
   presentToast(msg) {
