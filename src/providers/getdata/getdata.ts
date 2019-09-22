@@ -14,7 +14,7 @@ export class GetdataProvider {
     // base_url = 'http://10.0.55.44:8000';
     // base_url = 'http://10.0.55.168:8000';
     // base_url = 'http://10.0.49.211:8000';
-    base_url = 'http://35.194.215.21:8889';
+    base_url = 'http://35.221.212.205:8888';
     
     constructor(public http: Http) {
         console.log('Hello GetdataProvider Provider');

@@ -1,39 +1,39 @@
 page-home {
-    html, body, .ion-app {
-        background-color: transparent !important;
-      }
+    // html, body, .ion-app {
+    //     background-color: transparent !important;
+    //   }
 
-    .content{
-        overflow: hidden;
-        background-color: transparent !important;
-    }
+    // .content{
+    //     overflow: hidden;
+    //     background-color: transparent !important;
+    // }
 
-    .input-message-division{
-        position: absolute;
-        bottom: 0%;
-    }
+    // .input-message-division{
+    //     position: absolute;
+    //     bottom: 0%;
+    // }
     
-    .send-button{
-        border-radius: 50%;
-    }
+    // .send-button{
+    //     border-radius: 50%;
+    // }
     
-    .message-input-box{
-        background: white;
-        border-radius: 50px;
-        border: 1px solid #ac9d9d;
-    }
+    // .message-input-box{
+    //     background: white;
+    //     border-radius: 50px;
+    //     border: 1px solid #ac9d9d;
+    // }
 
-    .send-icon{
-        font-size: 30px;
-        color: #3194c2;
-    }
+    // .send-icon{
+    //     font-size: 30px;
+    //     color: #3194c2;
+    // }
 
-    .chat-list{
-        max-height: 40%; 
-        background-color: #ffffff; 
-        height: 40%; 
-        border-radius: 20px;
-    }
+    // .chat-list{
+    //     max-height: 40%; 
+    //     background-color: #ffffff; 
+    //     height: 40%; 
+    //     border-radius: 20px;
+    // }
 
     .chat-message {
         width: 80%;
@@ -88,5 +88,37 @@ page-home {
                 vertical-align: -webkit-baseline-middle;
             }
         }
+    }
+
+    ion-header{
+        height: 60%;
+    }
+
+    ion-content{
+        height: 100%;
+    }
+
+    ion-grid{
+        height: 100%
+    }
+
+    ion-row{
+        height: 100%;
+    }
+
+    .action-row{
+    }
+
+    .chat-row{
+        width: 100%;
+        background-color: transparent;
+    }
+
+    ion-list{
+        background-color: transparent !important;
+    }
+
+    ion-item{
+        background-color: transparent !important;
     }
 }

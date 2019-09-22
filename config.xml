@@ -3,7 +3,7 @@
     <name>MyApp</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
-    <content original-src="index.html" src="http://10.0.32.162:8100" />
+    <content original-src="index.html" src="http://10.0.32.116:8100" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -102,6 +102,7 @@
     <plugin name="cordova-plugin-nativegeocoder" spec="3.2.1" />
     <allow-navigation href="http://10.0.55.44:8100" />
     <allow-navigation href="http://10.0.32.162:8100" />
+    <allow-navigation href="http://10.0.32.116:8100" />
     <engine name="browser" spec="5.0.4" />
     <engine name="android" spec="7.1.4" />
 </widget>

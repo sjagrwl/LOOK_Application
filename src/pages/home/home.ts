@@ -15,11 +15,12 @@ declare let cordova: any;
 
 @Component({
   selector: 'page-home',
-  templateUrl: 'home.html'
+  templateUrl: 'home.html',
 })
 export class HomePage {
 
   @ViewChild(Content) contentArea: Content;
+  // @ViewChild('chatRowDiv') messagesContent: Content;
 
   task_index  = { 1: 'INTRODUCTION', 2: 'LOGIN'};
   sim_information: any;
@@ -100,6 +101,9 @@ export class HomePage {
   scrollToBottom()
   {
     this.contentArea.scrollToBottom();
+    // var messagesContent = this.app.getComponent('messagesContent') as Content;
+    // this.messagesContent.scrollToBottom();
+    // console.log('scrolled');
   }
 
   async login()
