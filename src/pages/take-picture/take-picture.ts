@@ -104,7 +104,7 @@ export class TakePicturePage {
   startTimer()
   {
     this.timerVar = Observable.interval(1000).subscribe( x=>{
-      this.timerVal = 5;
+      this.timerVal = 1;
       this.timerVal = this.timerVal - x;
       console.log(this.timerVal);
 

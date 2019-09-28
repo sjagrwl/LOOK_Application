@@ -1,113 +1,200 @@
 page-dashboard {
-  html, body, .ion-app {
-    background-color: transparent !important;
-  }
+//   html, body, .ion-app {
+//     background-color: transparent !important;
+//   }
 
-  .ion-list 
-  {
-      overflow-y: scroll !important;
-  };
+//   .ion-list 
+//   {
+//       overflow-y: scroll !important;
+//   };
 
-  .content{
-      overflow: hidden;
-      background-color: transparent !important;
-  }
+//   .content{
+//       overflow: hidden;
+//       background-color: transparent !important;
+//   }
 
-  .input-message-division{
-      position: absolute;
-      bottom: 0%;
-  }
+//   .input-message-division{
+//       position: absolute;
+//       bottom: 0%;
+//   }
 
   
 
-  .send-button{
-      border-radius: 50%;
-  }
+//   .send-button{
+//       border-radius: 50%;
+//   }
 
-  .message-input-box{
-      background: white;
-      border-radius: 50px;
-      border: 1px solid #ac9d9d;
-  }
+//   .message-input-box{
+//       background: white;
+//       border-radius: 50px;
+//       border: 1px solid #ac9d9d;
+//   }
 
-  .send-icon{
-      font-size: 30px;
-      color: #3194c2;
-  }
+//   .send-icon{
+//       font-size: 30px;
+//       color: #3194c2;
+//   }
 
-  .chat-list{
-    background: none;
-    // background-color: #ffffff; 
-    height: 40%; 
-    border-radius: 20px;
-    vertical-align: bottom;
-    color: white;
-    width: 100% !important;
-  }
+//   .chat-list{
+//     background: none;
+//     // background-color: #ffffff; 
+//     height: 40%; 
+//     border-radius: 20px;
+//     vertical-align: bottom;
+//     color: white;
+//     width: 100% !important;
+//   }
 
-  .camera-icon {
-    color: white; 
-    zoom: 2.0;
-  }
+//   .camera-icon {
+//     color: white; 
+//     zoom: 2.0;
+//   }
 
-  .mic-icon {
-    color: white; 
-    zoom: 2.0;
-  }
+//   .mic-icon {
+//     color: white; 
+//     zoom: 2.0;
+//   }
 
-  .chat-message {
-    width: 80%;
-    min-height: 40px;
-    .right-bubble {
-        text-align: right;
-        position: relative;
-        background: #e7eaeb;
-        border-top-left-radius: 20px;
-        border-bottom-left-radius: 20px;
-        border-bottom-right-radius: 20px;
-        padding: 5px 10px 10px;
-        left: 25%;
-        p {
-            vertical-align: -webkit-baseline-middle;
+//   .chat-message {
+//     width: 80%;
+//     min-height: 40px;
+//     .right-bubble {
+//         text-align: right;
+//         position: relative;
+//         background: #e7eaeb;
+//         border-top-left-radius: 20px;
+//         border-bottom-left-radius: 20px;
+//         border-bottom-right-radius: 20px;
+//         padding: 5px 10px 10px;
+//         left: 25%;
+//         p {
+//             vertical-align: -webkit-baseline-middle;
+//         }
+//     }
+
+//     .right-bubble:after {
+//         text-align: right;
+//         position: absolute;
+//         right: 0;
+//         top: 0;
+//         width: 0;
+//         height: 0;
+//         p {
+//             vertical-align: -webkit-baseline-middle;
+//         }
+//     }
+//     .left-bubble {
+//         position: relative;
+//         background: #ffffff;
+//         border-top-right-radius: 20px;
+//         border-bottom-left-radius: 20px;
+//         border-bottom-right-radius: 20px;
+//         padding: 5px 10px 10px;
+//         left: 3%;
+//         border: 2px solid #939494;
+//         width: 100% !important;
+//         p {
+//             vertical-align: -webkit-baseline-middle;
+//         }
+//     }
+
+//     .left-bubble:after {
+//         position: relative;
+//         left: 0;
+//         top: 0;
+//         width: 0;
+//         height: 0;
+//         border: 27px solid #939494;
+//         p {
+//             vertical-align: -webkit-baseline-middle;
+//         }
+//     }
+//   }
+
+    .chat-message {
+        width: 80%;
+        min-height: 40px;
+        .right-bubble {
+            text-align: right;
+            position: relative;
+            background: #e7eaeb;
+            border-top-left-radius: 20px;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            padding: 5px 10px 10px;
+            left: 25%;
+            p {
+                vertical-align: -webkit-baseline-middle;
+            }
+        }
+
+        .right-bubble:after {
+            text-align: right;
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 0;
+            height: 0;
+            p {
+                vertical-align: -webkit-baseline-middle;
+            }
+        }
+        .left-bubble {
+            position: relative;
+            background: #ffffff;
+            border-top-right-radius: 20px;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            padding: 5px 10px 10px;
+            left: 3%;
+            border: 2px solid #939494;
+            p {
+                vertical-align: -webkit-baseline-middle;
+            }
+        }
+
+        .left-bubble:after {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 0;
+            height: 0;
+            border: 27px solid #939494;
+            p {
+                vertical-align: -webkit-baseline-middle;
+            }
         }
     }
 
-    .right-bubble:after {
-        text-align: right;
-        position: absolute;
-        right: 0;
-        top: 0;
-        width: 0;
-        height: 0;
-        p {
-            vertical-align: -webkit-baseline-middle;
-        }
-    }
-    .left-bubble {
-        position: relative;
-        background: #ffffff;
-        border-top-right-radius: 20px;
-        border-bottom-left-radius: 20px;
-        border-bottom-right-radius: 20px;
-        padding: 5px 10px 10px;
-        left: 3%;
-        border: 2px solid #939494;
-        width: 100% !important;
-        p {
-            vertical-align: -webkit-baseline-middle;
-        }
+    ion-header{
+        height: 60%;
     }
 
-    .left-bubble:after {
-        position: relative;
-        left: 0;
-        top: 0;
-        width: 0;
-        height: 0;
-        border: 27px solid #939494;
-        p {
-            vertical-align: -webkit-baseline-middle;
-        }
+    ion-content{
+        height: 100%;
     }
-  }
+
+    ion-grid{
+        height: 100%
+    }
+
+    ion-row{
+        height: 100%;
+    }
+
+    .action-row{
+    }
+
+    .chat-row{
+        width: 100%;
+        background-color: transparent;
+    }
+
+    ion-list{
+        background-color: transparent !important;
+    }
+
+    ion-item{
+        background-color: transparent !important;
+    }
 }

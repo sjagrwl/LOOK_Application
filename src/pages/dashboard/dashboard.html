@@ -1,4 +1,4 @@
-<ion-content>
+<!-- <ion-content>
   <ion-grid style="height: 100%;">
     <ion-row style="height: 60%;">
       <ion-col col-6 (click)="TakePicture()">
@@ -27,12 +27,37 @@
       </ion-list>
       </ion-col>
     </ion-row>
-
-    <!-- <ion-row class="chat-list" scrollY="true">
-      
-      
-    </ion-row> -->
   </ion-grid>
+</ion-content> -->
+
+<ion-header no-border>
+  <ion-row>
+      <ion-col col-12>
+          <ion-icon name="camera" large style="color: white; zoom:2.0;"></ion-icon>
+      </ion-col>
+      <!-- <ion-col col-6 (click)="startListening(2)">
+          <ion-icon name="mic" float-right large style="color: white; zoom:2.0;" ></ion-icon>
+      </ion-col> -->
+    </ion-row>
+</ion-header>
+
+<ion-content>
+      <div class="chat-row" (click)="startListening(5)" id="chatRowDiv">
+        <ion-list>
+          <ion-item no-lines *ngFor="let chat of chats">
+            <div class="chat-message" *ngIf="chat.author == 'LOOK'">
+              <div class="left-bubble">
+                <p text-wrap>{{chat.message}}</p>
+              </div>
+            </div>
+            <div class="chat-message" *ngIf="chat.author == 'LOOK_USER'">
+              <div class="right-bubble">
+                <p text-wrap>{{chat.message}}</p>
+              </div>
+            </div>
+          </ion-item>
+        </ion-list>
+      </div>
 </ion-content>
 
 <!-- <ion-footer no-border padding>
