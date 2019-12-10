@@ -30,7 +30,7 @@
   </ion-grid>
 </ion-content> -->
 
-<ion-header no-border>
+<ion-header no-border (click)="TakePicture()">
   <ion-row>
       <ion-col col-12>
           <ion-icon name="camera" large style="color: white; zoom:2.0;"></ion-icon>
@@ -41,7 +41,7 @@
     </ion-row>
 </ion-header>
 
-<ion-content>
+<ion-content (click)="startListening(5)">
       <div class="chat-row" (click)="startListening(5)" id="chatRowDiv">
         <ion-list>
           <ion-item no-lines *ngFor="let chat of chats">
